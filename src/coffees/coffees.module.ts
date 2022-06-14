@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Injectable, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Event } from 'src/events/entities/event.entity';
 import { COFFEE_BRANDS } from './coffees.constants';
@@ -10,26 +10,48 @@ import { Flavor } from './entities/flavor.entity';
 // mock implementation
 // class MockCoffeesService {}
 
-class ConfigService {}
-class DevelopmentConfigService {}
-class ProductionConfigService {}
+// class ConfigService {}
+// class DevelopmentConfigService {}
+// class ProductionConfigService {}
+
+// Factory providers
+
+@Injectable()
+export class CoffeeBrandsFactory {
+  create() {
+    /* ... do something ... */
+    return ['buddy brew', 'nescafe'];
+  }
+}
 
 @Module({
   imports: [TypeOrmModule.forFeature([Coffee, Flavor, Event])],
   controllers: [CoffeesController],
   providers: [
     CoffeesService,
+    CoffeeBrandsFactory,
     {
-      provide: ConfigService,
-      useClass: process.env.NODE_ENV === 'development' ? DevelopmentConfigService : ProductionConfigService
-    }
-  ]
+      provide: COFFEE_BRANDS,
+      useFactory: () => ['buddy brew', 'nescafe'],
+      inject: [CoffeeBrandsFactory],
+    },
+  ],
+  exports: [CoffeesService],
+  // normal:
+  // providers: [CoffeesService],
+  // class-based provider token:
+  // providers: [
+  //   CoffeesService,
+  //   {
+  //     provide: ConfigService,
+  //     useClass: process.env.NODE_ENV === 'development' ? DevelopmentConfigService : ProductionConfigService
+  //   }
+  // ]
   // non-class-based provider token:
   // providers: [
   //   CoffeesService,
   //   { provide: COFFEE_BRANDS, useValue: ['buddy brew', 'nescafe'] },
   // ],
-  exports: [CoffeesService],
   // Custom mock provider:
   // providers: [
   //   {
