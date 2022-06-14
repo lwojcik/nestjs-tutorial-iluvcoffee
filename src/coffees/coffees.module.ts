@@ -29,14 +29,27 @@ export class CoffeeBrandsFactory {
   controllers: [CoffeesController],
   providers: [
     CoffeesService,
-    CoffeeBrandsFactory,
     {
       provide: COFFEE_BRANDS,
-      useFactory: () => ['buddy brew', 'nescafe'],
-      inject: [CoffeeBrandsFactory],
+      useFactory: async (): Promise<string[]> => {
+        // const coffeeBrands = await connection.query('SELECT * ...);
+        const coffeeBrands = await Promise.resolve(['buddy brew', 'nescafe']);
+        console.log('Async factory!');
+        return coffeeBrands;
+      },
     },
   ],
   exports: [CoffeesService],
+  // Factory provider:
+  // providers: [
+  //   CoffeesService,
+  //   CoffeeBrandsFactory,
+  //   {
+  //     provide: COFFEE_BRANDS,
+  //     useFactory: () => ['buddy brew', 'nescafe'],
+  //     inject: [CoffeeBrandsFactory],
+  //   },
+  // ],
   // normal:
   // providers: [CoffeesService],
   // class-based provider token:
