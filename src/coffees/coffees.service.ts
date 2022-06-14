@@ -25,6 +25,7 @@ export class CoffeesService {
 
     @Inject(COFFEE_BRANDS) coffeeBrands: string[],
   ) {
+    console.log('CoffeesService instantiated!');
     console.log(coffeeBrands);
   }
 
