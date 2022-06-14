@@ -9,13 +9,26 @@ import { Flavor } from './entities/flavor.entity';
 
 // mock implementation
 // class MockCoffeesService {}
+
+class ConfigService {}
+class DevelopmentConfigService {}
+class ProductionConfigService {}
+
 @Module({
   imports: [TypeOrmModule.forFeature([Coffee, Flavor, Event])],
   controllers: [CoffeesController],
   providers: [
     CoffeesService,
-    { provide: COFFEE_BRANDS, useValue: ['buddy brew', 'nescafe'] },
-  ],
+    {
+      provide: ConfigService,
+      useClass: process.env.NODE_ENV === 'development' ? DevelopmentConfigService : ProductionConfigService
+    }
+  ]
+  // non-class-based provider token:
+  // providers: [
+  //   CoffeesService,
+  //   { provide: COFFEE_BRANDS, useValue: ['buddy brew', 'nescafe'] },
+  // ],
   exports: [CoffeesService],
   // Custom mock provider:
   // providers: [
