@@ -1,9 +1,10 @@
 import { Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { ConfigService, ConfigType } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import coffeesConfig from 'src/config/coffees.config';
 import { Event } from 'src/events/entities/event.entity';
-import { Connection, DataSource, Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { COFFEE_BRANDS } from './coffees.constants';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
@@ -25,14 +26,12 @@ export class CoffeesService {
     private readonly dataSource: DataSource,
 
     @Inject(COFFEE_BRANDS) coffeeBrands: string[],
-    private readonly configService: ConfigService,
+    @Inject(coffeesConfig.KEY)
+    private readonly coffeesConfiguration: ConfigType<typeof coffeesConfig>,
   ) {
     console.log('CoffeesService instantiated!');
     console.log(coffeeBrands);
-    const databaseHost = this.configService.get<string>(
-      'database.host',
-      'localhost',
-    );
+    const databaseHost = this.coffeesConfiguration.foo;
     console.log(databaseHost);
   }
 
