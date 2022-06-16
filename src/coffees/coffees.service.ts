@@ -5,6 +5,7 @@ import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import coffeesConfig from 'src/config/coffees.config';
 import { Event } from 'src/events/entities/event.entity';
 import { DataSource, Repository } from 'typeorm';
+
 import { COFFEE_BRANDS } from './coffees.constants';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
@@ -47,7 +48,7 @@ export class CoffeesService {
   async findOne(id: string) {
     const coffee = await this.coffeeRepository.findOne({
       where: {
-        id: 1,
+        id: +id,
       },
       relations: ['flavors'],
     });
