@@ -12,6 +12,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
+import { ApiForbiddenResponse } from '@nestjs/swagger';
 import { Request } from 'express';
 import { Protocol } from 'src/common/decorators/protocol.decorator';
 import { Public } from 'src/common/decorators/public.decorator';
@@ -31,6 +32,7 @@ export class CoffeesController {
     console.log('CoffeesController created!');
   }
 
+  @ApiForbiddenResponse({ description: 'Forbidden.' })
   @Public()
   //@SetMetadata('isPublic', true)
   // @UsePipes(ValidationPipe)
