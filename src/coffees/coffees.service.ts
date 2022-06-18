@@ -1,12 +1,12 @@
-import { Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
-import { ConfigType } from '@nestjs/config';
+import { Injectable, NotFoundException, Scope } from '@nestjs/common';
+// import { ConfigType } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
-import coffeesConfig from 'src/config/coffees.config';
-import { Event } from 'src/events/entities/event.entity';
+// import coffeesConfig from 'src/config/coffees.config';
+// import { Event } from 'src/events/entities/event.entity';
 import { DataSource, Repository } from 'typeorm';
 
-import { COFFEE_BRANDS } from './coffees.constants';
+// import { COFFEE_BRANDS } from './coffees.constants';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { Coffee } from './entities/coffee.entity';
@@ -25,15 +25,14 @@ export class CoffeesService {
     private readonly flavorRepository: Repository<Flavor>,
 
     private readonly dataSource: DataSource,
-
-    @Inject(COFFEE_BRANDS) coffeeBrands: string[],
-    @Inject(coffeesConfig.KEY)
-    private readonly coffeesConfiguration: ConfigType<typeof coffeesConfig>,
   ) {
+    // @Inject(COFFEE_BRANDS) coffeeBrands: string[],
+    // @Inject(coffeesConfig.KEY)
+    // private readonly coffeesConfiguration: ConfigType<typeof coffeesConfig>,
     console.log('CoffeesService instantiated!');
-    console.log(coffeeBrands);
-    const databaseHost = this.coffeesConfiguration.foo;
-    console.log(databaseHost);
+    // console.log(coffeeBrands);
+    // const databaseHost = this.coffeesConfiguration.foo;
+    // console.log(databaseHost);
   }
 
   findAll(paginationQuery: PaginationQueryDto) {
@@ -106,13 +105,13 @@ export class CoffeesService {
     try {
       coffee.recommendations++;
 
-      const recommendEvent = new Event();
-      recommendEvent.name = 'recommend_coffee';
-      recommendEvent.type = 'coffee';
-      recommendEvent.payload = { coffeeId: coffee.id };
+      // const recommendEvent = new Event();
+      // recommendEvent.name = 'recommend_coffee';
+      // recommendEvent.type = 'coffee';
+      // recommendEvent.payload = { coffeeId: coffee.id };
 
       await queryRunner.manager.save(coffee);
-      await queryRunner.manager.save(recommendEvent);
+      // await queryRunner.manager.save(recommendEvent);
 
       await queryRunner.commitTransaction();
     } catch {
