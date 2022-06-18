@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException, Scope } from '@nestjs/common';
 // import { ConfigType } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
-// import coffeesConfig from 'src/config/coffees.config';
-// import { Event } from 'src/events/entities/event.entity';
+import { PaginationQueryDto } from '../common/dto/pagination-query.dto';
+// import coffeesConfig from '../config/coffees.config';
+// import { Event } from '../events/entities/event.entity';
 import { DataSource, Repository } from 'typeorm';
 
 // import { COFFEE_BRANDS } from './coffees.constants';
